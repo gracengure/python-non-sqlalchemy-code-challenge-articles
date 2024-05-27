@@ -6,27 +6,27 @@ class Article:
         self.title = title
         Article.all.append(self) 
     
-    @property
-    def author(self):
+    
+    def get_author(self):
         return self._author
 
-    @author.setter
-    def author(self, author):
+    
+    def set_author(self, author):
         if not isinstance(author, Author):
             raise ValueError("Author must be of type Author")
         self._author = author
-
-    @property
-    def magazine(self):
+    author=property(get_author,set_author)
+    
+    def get_magazine(self):
         return self._magazine
 
-    @magazine.setter
-    def magazine(self, magazine):
+    
+    def  set_magazine(self, magazine):
         if not isinstance(magazine, Magazine):
             raise ValueError("Magazine must be of type Magazine")
         self._magazine = magazine 
 
-
+    magazine=property(get_magazine,set_magazine)
     def get_title(self):
         return self._title
     
@@ -69,7 +69,7 @@ class Author:
 
     
     def magazines(self):
-     return list(set(article.magazine for article in self.articles()))
+     return list({article.magazine for article in self.articles()})
 
      pass
 
@@ -124,7 +124,7 @@ class Magazine:
         pass
 
     def contributors(self):
-        return list(set(article.author for article in self.articles()))
+        return list({article.author for article in self.articles()})
         pass
 
     def article_titles(self):
