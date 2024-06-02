@@ -1,3 +1,4 @@
+
 class Article:
     all = [] 
     def __init__(self, author, magazine, title):
@@ -80,13 +81,13 @@ class Author:
      pass
 
     def topic_areas(self):
-         if not self._articles:
+         if not self.articles():
             return None
          categories = set()
-         for article in self.articles:
+         for article in self.articles():
             categories.add(article.magazine.category)
-        
          return list(categories)
+
          pass
 
 class Magazine:
@@ -116,7 +117,7 @@ class Magazine:
             self._category = category
         else:
             print("Category must be a non-empty string.")
-
+    category = property(get_category ,set_category) 
 
     def articles(self):
         return [article for article in Article.all if article.magazine == self]
@@ -128,23 +129,19 @@ class Magazine:
         pass
 
     def article_titles(self):
-      if not self._articles:
-            return None
-      return [article.title for article in self._articles]  
-
+        return [article.title for article in self.articles()] if self.articles() else None
     pass
-
+    
     def contributing_authors(self):
         author_counts = {}
-        for article in self._articles:
+        for article in self.articles():
             author = article.author
             if author in author_counts:
                 author_counts[author] += 1
             else:
                 author_counts[author] = 1
-        
-        return [author for author, count in author_counts.items() if count > 2] if author_counts else None
-        pass
+        contributing_authors = [author for author, count in author_counts.items() if count > 2]
+        return contributing_authors if contributing_authors else None
     @classmethod
     def top_publisher(cls):
         if not cls._all_magazines:
